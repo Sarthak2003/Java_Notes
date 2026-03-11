@@ -143,4 +143,271 @@ JDK (Java Development Kit)
 			- extcheck
 				- detects version conflicts btw target Java Archive(JAR) file and currently installed extension JAR files
 		- Security Tools
-			- 
+			- include key and certificate management tools, used to manipulate Java Keystrokes
+			- keytool
+				- helps in managing keystore entries, cryptographic keys and certificates
+			- jarsigner
+				- generates digitally signed JAR files by using keystroke info
+			- policytool
+				- enables us to manage the external policy config files
+			- some tools also help in managing Kerberos tickets
+				- kinit
+					- used to obtain and cache Kerberos TGTs
+				- ktab
+					- manages principle names and key pairs in key table
+				- klist
+					- displays entries in the local credentials cache and key table
+		- Internationalization Tool
+			- process of designing an application so that it can be adapted to various languages and regions without engineering changes
+			- native2ascii tool converts a file with characters supported by JRE to files encoded in ASCII or Unicode escapes.
+		- Remote Method Invocation (RMI) Tools
+			- enable remote communication between Java applications thus providing scope for development of distributed applications
+			- enables an object running in one JVM to invoke methods on an object running in another JVM
+			- rmic
+				- generates stub, skeleton and tie classes for remote objects using Java Remote Method Protocol (JRMP) or Inter-Orb Protocol (IIOP)
+			- rmiregistry
+				- creates and starts remote object registry
+			- rmid
+				- starts activation system daemon
+				- allows objects to be registered and activated in a Java Virtual Machine
+			- serialver
+				- returns serial version UID for specified classes
+
+_JDK contains JRE; JRE contains JVM_
+
+**OOP Pillars**
+	- **Encapsulation**
+		- Bundle data (fields) and methods. Hide fields with `private`, expose via `public` getters/setters.
+		- _Example:_ `Employee` class with private `salary`, public `getSalary()`
+	- **Inheritance**
+		- `class Dog extends Animal`. Use `super` to call parent constructor/methods.
+		- _Prefer composition over inheritance_: "Has-a" vs "Is-a". Composition (e.g., `Car` has an `Engine`) is more flexible.
+	- **Polymorphism**
+		- **Compile-time (overloading)**: same method name, different parameters
+		- **Runtime (overriding)**: subclass provides specific implementation.
+			- _Interview Q:_ "Can you override a private method?" No – private methods are not inherited.  
+			- "Static methods?" No – they are hidden, not overridden.
+	- **Abstraction**
+		- **Abstract class**: can have state, constructors, and concrete methods. Use when classes share code.
+		- **Interface** (Java 8+): can have default/static methods. Use for capabilities (e.g., `Runnable`).
+			- _Example:_ `Animal` abstract class with `abstract void sound()`; `Pet` interface with `default void play()`.
+- ### Collections & Generics
+	- **Key Interfaces**: `List`, `Set`, `Map`.
+	- **ArrayList**
+		- resizable array, fast random access
+	- **LinkedList**
+		- doubly-linked, fast insertion/deletion
+	- **HashSet**
+		- uses `hashCode()` and `equals()` for uniqueness, no order.
+	- **HashMap**
+		- key-value pairs, allows one null key
+
+**Generics**: Type safety.  
+`List<String> list = new ArrayList<>();`
+
+- **Stack**:
+    
+    - Primitive data types (`int`, `boolean`, `double`)
+        
+    - Object **references** (pointers to objects in heap)
+        
+    - One stack frame per method call. LIFO.
+        
+    - _Thread private_.
+        
+    - _Error_: `StackOverflowError` (infinite recursion).
+
+**Heap**:
+
+- All **actual objects** (instances of classes, arrays).
+    
+- Shared across all threads.
+    
+- Managed by Garbage Collector (GC).
+    
+- _Error_: `OutOfMemoryError`
+
+- **Method Area**:
+    
+    - Class metadata, static variables, constants.
+
+
+- **HashMap internal**: array of buckets, `hashCode()` determines bucket, `equals()` compares keys.
+    
+- **HashSet** uses HashMap internally.
+    
+- **ConcurrentModificationException**: when modifying collection while iterating.
+
+**Exception Hierarchy**:
+
+- `Throwable` → `Exception` (checked) → `RuntimeException` (unchecked) → `Error`.
+    
+- Checked: must be caught or declared (e.g., `IOException`).
+    
+- Unchecked: programming errors (e.g., `NullPointerException`).
+    
+- **Try-with-resources**: automatically closes resources (e.g., `BufferedReader`
+
+
+
+Inheritence, Polymorphism, Abstraction
+
+
+abstract class Animal{  
+    abstract void Sound();  
+}  
+  
+interface Pet{  
+    default void Play(){  
+        System.out.println("Pet is Playing");  
+    }  
+}  
+  
+class Dog extends Animal implements Pet{  
+    void Sound(){  
+        System.out.println("Bark Bark");  
+    }  
+}  
+  
+class cat extends Animal{  
+    void Sound() {  
+        System.out.println("Meow seypu");  
+    }  
+}  
+  
+public class Main{  
+    public static void main(String[] args){  
+        Animal mydog = new Dog();  
+        mydog.Sound();  
+  
+        Dog dog = new Dog();  
+        dog.Play();  
+    }  
+}
+
+ARRAYLIST
+import java.util.ArrayList;  
+import java.util.Iterator;  
+  
+public class Array {  
+    public static void main(String[] args){  
+        ArrayList<String> names = new ArrayList<>();  
+  
+        names.add("abcd");  
+        names.add("esca");  
+        names.add("pens");  
+        names.add("mnky");  
+  
+        System.out.println("After adding names: " + names);  
+  
+        /*names.remove("esca");  
+  
+        System.out.println("After removing using value:" + names);  
+        names.remove(2);  
+        System.out.println("After removing from index:" + names);*/  
+        System.out.println("Using for each loop");  
+        for (String name : names){  
+            System.out.println(name);  
+        }  
+  
+        System.out.println("\nUsing for loop");  
+        for (int i = 0; i < names.size(); i++){  
+            System.out.println(names.get(i));  
+        }  
+  
+        System.out.println("\nUsing Iterator");  
+        Iterator<String> iterator = names.iterator();  
+        while (iterator.hasNext()){  
+            System.out.println(iterator.next());  
+        }  
+  
+  
+  
+    }  
+}
+
+HASHSET
+import java.util.ArrayList;  
+import java.util.HashSet;  
+import java.util.Iterator;  
+  
+  
+public class set {  
+    public static void main(String[] args){  
+        ArrayList<String> names = new ArrayList<>();  
+  
+        names.add("abcd");  
+        names.add("pens");  
+        names.add("esca");  
+        names.add("mnky");  
+        names.add("abcd");  
+        names.add("esca");  
+  
+        System.out.println("Original List");  
+        System.out.println(names);  
+  
+        HashSet<String> uniquenames = new HashSet<>(names);  
+  
+        System.out.println("After removing duplicates");  
+        System.out.println(uniquenames);  
+  
+        uniquenames.add("zoro");  
+        uniquenames.remove("esca");  
+        System.out.println(uniquenames);  
+    }  
+}
+
+HASHMAP
+import java.util.HashMap;  
+import java.util.Map;  
+  
+public class map {  
+    public static void main(String[] args){  
+        String sentence = "Java is powerful and Java is popular and Java is object oriented";  
+  
+        sentence = sentence.toLowerCase();  
+  
+        String[] words = sentence.split(" ");  
+  
+        HashMap<String, Integer> wc = new HashMap<>();  
+  
+        for (String word : words){  
+            if (wc.containsKey(word)){  
+                wc.put(word, wc.get(word) + 1);  
+            }  
+            else {  
+                wc.put(word, 1);  
+            }  
+        }  
+        System.out.println("Word Frequencies");  
+        for (Map.Entry<String, Integer> entry : wc.entrySet()){  
+            System.out.println(entry.getKey() + " : " + entry.getValue());  
+        }  
+  
+    }  
+}
+
+
+**Memory (Stack vs Heap)**
+
+- **Stack**: stores primitives and object references; each method call pushes a frame; local variables.
+    
+- **Heap**: stores all objects; shared across threads.
+    
+- **Garbage Collection**: objects become eligible when no references point to them.
+    
+
+**Interview Q**: "What causes StackOverflowError?" (infinite recursion). "OutOfMemoryError?" (heap full).
+
+### equals() & hashCode() Contract
+
+**Contract**:
+
+- If `equals()` returns true, `hashCode()` must return the same value.
+    
+- If `hashCode()` same, objects may or may not be equal.
+    
+- Override both for correct behavior in collections (HashMap, HashSet).
+    
+
+**Why important**: Without proper override, duplicates can appear in HashSet.
